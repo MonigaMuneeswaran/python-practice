@@ -1,29 +1,31 @@
-#GenAI
-# import sys
-# print(sys.executable)
-
-# import os
-
-# api_key = os.getenv("OPENAI_API_KEY")
-
-# if api_key:
-#     print("API key found!")
-# else:
-#     print("API key not found!")
 
 from openai import OpenAI
 
-# Create an OpenAI client
 client = OpenAI()
+history = []
 
-# Send a prompt to the AI model
-response = client.responses.create(
-    model="gpt-4.1-mini",
-    input="Explain ML in simple words with 3 real-world examples."
-)
+def chatbot(user_input):
 
-# Display the AI response
-print(response.output_text)
+    history.append({
+        "role": "user",
+        "content": user_input
+    })
 
+    print(history)
 
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input=history
+    )
+
+    bot_response = response.output_text
+
+    print("Bot:", bot_response)
+
+    history.append({
+        "role": "assistant",
+        "content": bot_response
+    })
+
+    return bot_response
 
